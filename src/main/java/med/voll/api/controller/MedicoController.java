@@ -34,7 +34,7 @@ public class MedicoController {
                 medico.getTelefono(), medico.getEspecialidad().toString(),
                 new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito(),
                         medico.getDireccion().getCiudad(), medico.getDireccion().getNumero(),
-                        medico.getDireccion().getComplemento()));
+                        medico.getDireccion().getComplemento()), medico.getActivo());
 
         URI url = uriComponentsBuilder.path("/medicos/{id}").buildAndExpand(medico.getId()).toUri();
         return ResponseEntity.created(url).body(datosRespuestaMedico);
@@ -43,7 +43,7 @@ public class MedicoController {
 
     @GetMapping
     @Operation(summary = "Obtiene el listado de medicos")
-    public ResponseEntity<Page<DatosListadoMedico>> listadoMedicos(@PageableDefault(size = 2) Pageable paginacion) {
+    public ResponseEntity<Page<DatosListadoMedico>> listadoMedicos(@PageableDefault(size = 6) Pageable paginacion) {
 //        return medicoRepository.findAll(paginacion).map(DatosListadoMedico::new);
         return ResponseEntity.ok(medicoRepository.findByActivoTrue(paginacion).map(DatosListadoMedico::new));
     }
@@ -58,7 +58,7 @@ public class MedicoController {
                 medico.getTelefono(), medico.getEspecialidad().toString(),
                 new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito(),
                         medico.getDireccion().getCiudad(), medico.getDireccion().getNumero(),
-                        medico.getDireccion().getComplemento())));
+                        medico.getDireccion().getComplemento()), medico.getActivo()));
     }
 
     // DELETE LOGICO
@@ -79,7 +79,7 @@ public class MedicoController {
                 medico.getTelefono(), medico.getEspecialidad().toString(),
                 new DatosDireccion(medico.getDireccion().getCalle(), medico.getDireccion().getDistrito(),
                         medico.getDireccion().getCiudad(), medico.getDireccion().getNumero(),
-                        medico.getDireccion().getComplemento()));
+                        medico.getDireccion().getComplemento()), medico.getActivo());
         return ResponseEntity.ok(datosMedico);
     }
 
